@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cg3o3xsghe5qy"]
+
+[ext_resource type="Texture2D" uid="uid://e7xq4bsi0jp6" path="res://sprites/swimmer.png" id="1_0v7wc"]
+[ext_resource type="Script" uid="uid://cnjj015y7qwwj" path="res://scripts/state_machine/state_machine.gd" id="2_m60yy"]
+[ext_resource type="Script" uid="uid://t83mtywjxidi" path="res://scripts/walking.gd" id="3_bor4d"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m5e7v"]
+radius = 9.0
+height = 34.0
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -23)
+texture = ExtResource("1_0v7wc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -17)
+shape = SubResource("CapsuleShape2D_m5e7v")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+script = ExtResource("2_m60yy")
+current_state = NodePath("Walking")
+
+[node name="Walking" type="Node" parent="StateMachine" node_paths=PackedStringArray("body", "state_machine")]
+script = ExtResource("3_bor4d")
+body = NodePath("../..")
+state_machine = NodePath("..")

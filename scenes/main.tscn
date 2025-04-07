@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://0mtpqlmjrkku"]
+
+[ext_resource type="PackedScene" uid="uid://cg3o3xsghe5qy" path="res://instances/player.tscn" id="1_o5qli"]
+[ext_resource type="Texture2D" uid="uid://lf1kvxhaauxo" path="res://sprites/background.png" id="2_0wfyh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0wfyh"]
+size = Vector2(1278, 80)
+
+[node name="Node2D" type="Node2D"]
+texture_filter = 1
+
+[node name="Background" type="StaticBody2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="Background"]
+position = Vector2(0, 6)
+scale = Vector2(10, 10)
+texture = ExtResource("2_0wfyh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Background"]
+position = Vector2(0, 326)
+shape = SubResource("RectangleShape2D_0wfyh")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Background"]
+position = Vector2(0, -314)
+shape = SubResource("RectangleShape2D_0wfyh")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Background"]
+position = Vector2(-600, 1)
+rotation = 1.57079
+shape = SubResource("RectangleShape2D_0wfyh")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Background"]
+position = Vector2(600, 9)
+rotation = 1.57079
+shape = SubResource("RectangleShape2D_0wfyh")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 6)
+scale = Vector2(2, 2)
+position_smoothing_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("1_o5qli")]
+scale = Vector2(2, 2)

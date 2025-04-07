@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://7xau77rl1c3q"]
+
+[ext_resource type="Script" uid="uid://ckaimu6ra1um1" path="res://scripts/intro_scene.gd" id="1_on3p8"]
+[ext_resource type="Script" uid="uid://bwto5ucvx87u" path="res://scripts/skip_intro.gd" id="2_6x0qg"]
+
+[node name="Talking" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("1_on3p8")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Skip" type="Button" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -42.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 41
+text = "SKIP"
+flat = true
+script = ExtResource("2_6x0qg")
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 76
+text = "You're in deep, kid."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://uxqp7qkb7nkr"]
+
+[ext_resource type="Script" uid="uid://p7wiunx1hawp" path="res://scripts/side.gd" id="1_xodod"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a50kt"]
+size = Vector3(0.01, 0.0236768, 0.01)
+
+[node name="Side" type="Area3D"]
+script = ExtResource("1_xodod")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00683838, 0)
+shape = SubResource("BoxShape3D_a50kt")

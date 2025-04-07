@@ -1,0 +1,299 @@
+[gd_scene load_steps=19 format=3 uid="uid://r8pkqi4ybu2c"]
+
+[ext_resource type="Script" uid="uid://dpo36fvdt21fh" path="res://scripts/player_camera.gd" id="1_02ppr"]
+[ext_resource type="Script" uid="uid://ci1eo0ke2ye5k" path="res://scripts/game_manager.gd" id="1_eotx8"]
+[ext_resource type="Script" uid="uid://b0ipohur8fg5s" path="res://dice/die.gd" id="2_2f5gb"]
+[ext_resource type="Script" uid="uid://dptr4ogfvyij" path="res://scripts/hand.gd" id="3_olh0b"]
+[ext_resource type="Resource" uid="uid://bb1rcgacxdxqj" path="res://dice/6-sided-basic-die.tres" id="3_ov7a8"]
+[ext_resource type="Script" uid="uid://dbm2hfsrxjyue" path="res://scripts/table.gd" id="4_2f5gb"]
+[ext_resource type="Script" uid="uid://m0yd56lxy03t" path="res://scripts/points_per_round_label.gd" id="4_ov7a8"]
+[ext_resource type="Script" uid="uid://468bq4ify1fu" path="res://scripts/hold_button.gd" id="5_e1moh"]
+[ext_resource type="Script" uid="uid://6exeaqc15t8x" path="res://scripts/dealer.gd" id="7_docs3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_x8522"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_olh0b"]
+sky_material = SubResource("ProceduralSkyMaterial_x8522")
+
+[sub_resource type="Environment" id="Environment_u03e6"]
+background_mode = 2
+sky = SubResource("Sky_olh0b")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8522"]
+friction = 0.9
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_docs3"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_eotx8"]
+size = Vector3(1.5, 1, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_x8522"]
+points = PackedVector3Array(0.75, 0.5, 0.5, 0.75, 0.5, -0.5, -0.75, 0.5, 0.5, 0.75, -0.5, 0.5, 0.75, -0.5, -0.5, -0.75, 0.5, -0.5, -0.75, -0.5, 0.5, -0.75, -0.5, -0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_olh0b"]
+size = Vector3(1, 2.52, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u03e6"]
+size = Vector3(0.378906, 0.400391, 0.201172)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("player", "debt_display", "ppr_label", "op_ppr_label", "round_label", "table", "dealer", "go_screen", "roller", "op_roller")]
+script = ExtResource("1_eotx8")
+player = NodePath("../Camera3D")
+debt_display = NodePath("../UI/Label")
+ppr_label = NodePath("../UI/PointsPerRound")
+op_ppr_label = NodePath("../UI/OpPointsPerRound")
+round_label = NodePath("../UI/Round")
+table = NodePath("../Table/Area3D")
+dealer = NodePath("../Dealer")
+go_screen = NodePath("../UI/GOScreen")
+roller = NodePath("../Dealer/Roller")
+op_roller = NodePath("../Dealer/OpRoller")
+die_list = Array[ExtResource("2_2f5gb")]([ExtResource("3_ov7a8")])
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_u03e6")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -164.0
+offset_bottom = 68.0
+grow_horizontal = 0
+text = "DEBT:
+$100,000"
+horizontal_alignment = 2
+
+[node name="PointsPerRound" type="Label" parent="UI"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "0"
+script = ExtResource("4_ov7a8")
+
+[node name="OpPointsPerRound" type="Label" parent="UI"]
+offset_top = 23.0
+offset_right = 40.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "0"
+script = ExtResource("4_ov7a8")
+
+[node name="Round" type="Label" parent="UI"]
+offset_top = 46.0
+offset_right = 79.0
+offset_bottom = 69.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Round 0/5"
+
+[node name="GOScreen" type="ColorRect" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Button" type="Button" parent="UI"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_top = -31.0
+offset_right = 27.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 36
+text = "HOLD"
+script = ExtResource("5_e1moh")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("look_up_transform", "look_down_transform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88863, 0.501443)
+script = ExtResource("1_02ppr")
+look_up_transform = NodePath("LookUp")
+look_down_transform = NodePath("LookDown")
+
+[node name="LookUp" type="Marker3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88863, 0.501443)
+top_level = true
+
+[node name="LookDown" type="Marker3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.439783, 0.898104, 0, -0.898104, 0.439783, 0, 1.88863, 0.501443)
+top_level = true
+
+[node name="Table" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_x8522")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.48296, 0.914188, 0)
+input_ray_pickable = false
+physics_material_override = SubResource("PhysicsMaterial_docs3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Table/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+mesh = SubResource("BoxMesh_eotx8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_x8522")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0226302, 0.914188, -0.997787)
+input_ray_pickable = false
+physics_material_override = SubResource("PhysicsMaterial_docs3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Table/StaticBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+mesh = SubResource("BoxMesh_eotx8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/StaticBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_x8522")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0226302, 0.914188, 1.0001)
+input_ray_pickable = false
+physics_material_override = SubResource("PhysicsMaterial_docs3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Table/StaticBody3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+mesh = SubResource("BoxMesh_eotx8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/StaticBody3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_x8522")
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.50682, 0.914188, 0)
+collision_layer = 0
+input_ray_pickable = false
+physics_material_override = SubResource("PhysicsMaterial_docs3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Table/StaticBody3D5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+mesh = SubResource("BoxMesh_eotx8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/StaticBody3D5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_x8522")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_eotx8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_x8522")
+
+[node name="Area3D" type="Area3D" parent="Table" node_paths=PackedStringArray("collider1", "collider2")]
+script = ExtResource("4_2f5gb")
+collider1 = NodePath("../StaticBody3D2")
+collider2 = NodePath("../StaticBody3D5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_x8522")
+
+[node name="Dealer" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87456, -1.9615)
+script = ExtResource("7_docs3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dealer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.968444, 0)
+mesh = SubResource("BoxMesh_olh0b")
+
+[node name="RightHand" type="Area3D" parent="Dealer" node_paths=PackedStringArray("roller", "op_roller")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.732366, 0, 0.690949)
+script = ExtResource("3_olh0b")
+roller = NodePath("../Roller")
+op_roller = NodePath("../OpRoller")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dealer/RightHand"]
+shape = SubResource("BoxShape3D_u03e6")
+
+[node name="Marker3D" type="Marker3D" parent="Dealer/RightHand"]
+transform = Transform3D(0.988526, 0, -0.151054, 0, 1, 0, 0.151054, 0, 0.988526, -0.387889, 0, 0.907255)
+
+[node name="DieName" type="Label3D" parent="Dealer/RightHand"]
+transform = Transform3D(0.95327, 0, -0.30212, 0, 1, 0, 0.30212, 0, 0.95327, 0, 0.229761, 0)
+visible = false
+text = "Name"
+font_size = 16
+outline_size = 0
+
+[node name="DieDescription" type="Label3D" parent="Dealer/RightHand"]
+transform = Transform3D(0.857957, 0, -0.513721, 0, 1, 0, 0.513721, 0, 0.857957, 0.212525, 0.167492, 0.0372374)
+visible = false
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+font_size = 8
+outline_size = 0
+horizontal_alignment = 0
+vertical_alignment = 0
+autowrap_mode = 2
+width = 100.0
+
+[node name="LeftHand" type="Area3D" parent="Dealer" node_paths=PackedStringArray("roller", "op_roller")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.732, 0, 0.691)
+script = ExtResource("3_olh0b")
+roller = NodePath("../Roller")
+op_roller = NodePath("../OpRoller")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dealer/LeftHand"]
+shape = SubResource("BoxShape3D_u03e6")
+
+[node name="Marker3D" type="Marker3D" parent="Dealer/LeftHand"]
+transform = Transform3D(0.988494, 0, 0.151261, 0, 1, 0, -0.151261, 0, 0.988494, 0.388, 0, 0.907)
+
+[node name="DieName" type="Label3D" parent="Dealer/LeftHand"]
+transform = Transform3D(0.953191, 0, 0.30237, 0, 1, 0, -0.30237, 0, 0.953191, 0, 0.229761, 0)
+visible = false
+text = "Name"
+font_size = 16
+outline_size = 0
+
+[node name="DieDescription" type="Label3D" parent="Dealer/LeftHand"]
+transform = Transform3D(0.858065, 0, 0.513541, 0, 1, 0, -0.513541, 0, 0.858065, -0.593, 0.167, 0.265)
+visible = false
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+font_size = 8
+outline_size = 0
+horizontal_alignment = 0
+vertical_alignment = 0
+autowrap_mode = 2
+width = 100.0
+
+[node name="Roller" type="Node3D" parent="Dealer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58442, 1.58351, 0)
+top_level = true
+
+[node name="OpRoller" type="Node3D" parent="Dealer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.584, 1.584, 0)
+top_level = true
+
+[node name="Speech" type="Label3D" parent="Dealer"]
+transform = Transform3D(1, 0, 0, 0, 0.963574, 0.26744, 0, -0.26744, 0.963574, 0, -0.597894, 1.35785)
+text = "Test text for speech"
+font_size = 16
+autowrap_mode = 2
+width = 300.0
