@@ -8,10 +8,10 @@ signal roll_op
 static var instance : GameManager
 
 @export var player : Player
-@export var debt_display : Label
-@export var ppr_label : Label
-@export var op_ppr_label : Label
-@export var round_label : Label
+@export var debt_display : Label3D
+@export var ppr_label : Label3D
+@export var op_ppr_label : Label3D
+@export var round_label : Label3D
 @export var table : Table
 @export var dealer : Dealer
 @export var go_screen : ColorRect
@@ -51,9 +51,9 @@ func _ready() -> void:
 		queue_free()
 
 func _process(_delta: float) -> void:
-	debt_display.text = "DEBT\n$" + str(debt)
-	ppr_label.text = "You: " + str(points)
-	op_ppr_label.text = "Dealer: " + str(op_points)
+	debt_display.text = "$" + str(debt)
+	ppr_label.text = "You\n" + str(points)
+	op_ppr_label.text = "Dealer\n" + str(op_points)
 	round_label.text = "Round " + str(round) + "/5"
 	
 	if OS.is_debug_build():
@@ -104,7 +104,12 @@ func turn_end(held : bool = false):
 		check_game_over()
 
 func check_game_over():
+	hand_reset.emit(game_over)
+	player.look_up()
+	await get_tree().create_timer(1.0).timeout
+	
 	if round > 5 or debt == 0 or points > 19 or op_points > 19:
+		
 		if points > 19 or (points < op_points and op_points <= 19):
 			debt += 10000
 		else:
@@ -127,13 +132,14 @@ func check_game_over():
 		die.queue_free()
 	if op_die:
 		op_die.queue_free()
-	player.look_up()
 	
 	if game_over:
 		state = PlayerState.ENDING
 		await get_tree().create_timer(2.0).timeout
 		dealer.say("Well, wish I could say I'd regret this")
-		await get_tree().create_timer(5.0).timeout
+		await get_tree().create_timer(4.0).timeout
+		player.get_node("AudioStreamPlayer3D").play()
+		await get_tree().create_timer(1.09).timeout
 		go_screen.visible = true
 		await get_tree().create_timer(5.0).timeout
 		get_tree().change_scene_to_packed(title_screen)

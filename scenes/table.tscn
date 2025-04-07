@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://r8pkqi4ybu2c"]
+[gd_scene load_steps=29 format=3 uid="uid://r8pkqi4ybu2c"]
 
 [ext_resource type="Script" uid="uid://dpo36fvdt21fh" path="res://scripts/player_camera.gd" id="1_02ppr"]
 [ext_resource type="Script" uid="uid://ci1eo0ke2ye5k" path="res://scripts/game_manager.gd" id="1_eotx8"]
@@ -6,10 +6,13 @@
 [ext_resource type="Script" uid="uid://dptr4ogfvyij" path="res://scripts/hand.gd" id="3_olh0b"]
 [ext_resource type="Resource" uid="uid://bb1rcgacxdxqj" path="res://dice/6-sided-basic-die.tres" id="3_ov7a8"]
 [ext_resource type="Script" uid="uid://dbm2hfsrxjyue" path="res://scripts/table.gd" id="4_2f5gb"]
+[ext_resource type="Resource" uid="uid://fb0807gibxn0" path="res://dice/the-coin.tres" id="4_5y3mx"]
 [ext_resource type="Theme" uid="uid://brsy2y5wrysqn" path="res://fonts/main_theme.tres" id="4_g0e7t"]
 [ext_resource type="Script" uid="uid://m0yd56lxy03t" path="res://scripts/points_per_round_label.gd" id="4_ov7a8"]
 [ext_resource type="Script" uid="uid://468bq4ify1fu" path="res://scripts/hold_button.gd" id="5_e1moh"]
 [ext_resource type="Script" uid="uid://6exeaqc15t8x" path="res://scripts/dealer.gd" id="7_docs3"]
+[ext_resource type="AudioStream" uid="uid://dta4b7ph3jvd0" path="res://sounds/gunshot-one.mp3" id="9_2aerv"]
+[ext_resource type="Texture2D" uid="uid://botr13xf6x486" path="res://sprites/dealer.png" id="10_tom3p"]
 [ext_resource type="FontFile" uid="uid://c1roruqqi1dl" path="res://fonts/Underdog-Regular.ttf" id="11_vm5w8"]
 [ext_resource type="AudioStream" uid="uid://4sx72osrkshv" path="res://sounds/talk_sounds.wav" id="12_vm5w8"]
 [ext_resource type="AudioStream" uid="uid://tpgvolivbckt" path="res://sounds/grab.wav" id="13_5qpul"]
@@ -40,73 +43,80 @@ size = Vector3(1.5, 1, 1)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_x8522"]
 points = PackedVector3Array(0.75, 0.5, 0.5, 0.75, 0.5, -0.5, -0.75, 0.5, 0.5, 0.75, -0.5, 0.5, 0.75, -0.5, -0.5, -0.75, 0.5, -0.5, -0.75, -0.5, 0.5, -0.75, -0.5, -0.5)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2aerv"]
+atlas = ExtResource("10_tom3p")
+region = Rect2(132, 26, 213, 452)
+
 [sub_resource type="BoxMesh" id="BoxMesh_olh0b"]
 size = Vector3(1, 2.52, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y3mx"]
+atlas = ExtResource("10_tom3p")
+region = Rect2(368, 192, 105, 55)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_u03e6"]
 size = Vector3(0.378906, 0.400391, 0.201172)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tom3p"]
+atlas = ExtResource("10_tom3p")
+region = Rect2(368, 192, 105, 55)
 
 [node name="Node3D" type="Node3D"]
 
 [node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("player", "debt_display", "ppr_label", "op_ppr_label", "round_label", "table", "dealer", "go_screen", "roller", "op_roller")]
 script = ExtResource("1_eotx8")
 player = NodePath("../Camera3D")
-debt_display = NodePath("../UI/Label")
-ppr_label = NodePath("../UI/PointsPerRound")
-op_ppr_label = NodePath("../UI/OpPointsPerRound")
-round_label = NodePath("../UI/Round")
+debt_display = NodePath("../UI2/Debt")
+ppr_label = NodePath("../UI2/YourPoints")
+op_ppr_label = NodePath("../UI2/DealerPoints")
+round_label = NodePath("../UI2/Round")
 table = NodePath("../Table/Area3D")
 dealer = NodePath("../Dealer")
 go_screen = NodePath("../UI/GOScreen")
 roller = NodePath("../Dealer/Roller")
 op_roller = NodePath("../Dealer/OpRoller")
-die_list = Array[ExtResource("2_2f5gb")]([ExtResource("3_ov7a8")])
+die_list = Array[ExtResource("2_2f5gb")]([ExtResource("3_ov7a8"), ExtResource("4_5y3mx")])
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866024, -0.433016, 0.250001, 0.452238, -0.465083, 0.761037, -0.21327, 0.772136, 0.598601, 0, 0, 0)
 shadow_enabled = true
 
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29726, -1.06035)
+omni_range = 1.12
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_u03e6")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI2" type="Node3D" parent="."]
 
-[node name="Label" type="Label" parent="UI"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -164.0
-offset_bottom = 68.0
-grow_horizontal = 0
-theme = ExtResource("4_g0e7t")
-text = "DEBT:
-$100,000"
-horizontal_alignment = 2
+[node name="Debt" type="Label3D" parent="UI2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.30406, -1.85082)
+text = "$50000"
+font = ExtResource("11_vm5w8")
+font_size = 86
 
-[node name="PointsPerRound" type="Label" parent="UI"]
-offset_right = 40.0
-offset_bottom = 23.0
-theme = ExtResource("4_g0e7t")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "0"
+[node name="YourPoints" type="Label3D" parent="UI2"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1.60444, 2.63775, -1.55325)
+text = "You
+19"
+font = ExtResource("11_vm5w8")
+font_size = 86
 script = ExtResource("4_ov7a8")
 
-[node name="OpPointsPerRound" type="Label" parent="UI"]
-offset_top = 47.0
-offset_right = 40.0
-offset_bottom = 94.0
-theme = ExtResource("4_g0e7t")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "0"
-script = ExtResource("4_ov7a8")
+[node name="DealerPoints" type="Label3D" parent="UI2"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 1.604, 2.63817, -1.553)
+text = "Dealer
+19"
+font = ExtResource("11_vm5w8")
+font_size = 86
 
-[node name="Round" type="Label" parent="UI"]
-offset_top = 94.0
-offset_right = 193.0
-offset_bottom = 141.0
-theme = ExtResource("4_g0e7t")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+[node name="Round" type="Label3D" parent="UI2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.00722, -1.851)
 text = "Round 0/5"
+font = ExtResource("11_vm5w8")
+
+[node name="UI" type="CanvasLayer" parent="."]
 
 [node name="GOScreen" type="ColorRect" parent="UI"]
 visible = false
@@ -123,9 +133,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -27.0
-offset_top = -31.0
-offset_right = 27.0
+offset_left = -48.0
+offset_top = -119.0
+offset_right = 49.0
+offset_bottom = -69.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("4_g0e7t")
@@ -146,6 +157,10 @@ top_level = true
 [node name="LookDown" type="Marker3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 0.439783, 0.898104, 0, -0.898104, 0.439783, 0, 1.88863, 0.501443)
 top_level = true
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.852308)
+stream = ExtResource("9_2aerv")
 
 [node name="Table" type="StaticBody3D" parent="."]
 physics_material_override = SubResource("PhysicsMaterial_x8522")
@@ -228,8 +243,15 @@ shape = SubResource("ConvexPolygonShape3D_x8522")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87456, -1.9615)
 script = ExtResource("7_docs3")
 
+[node name="Sprite3D" type="Sprite3D" parent="Dealer"]
+transform = Transform3D(0.86, 0, 0, 0, 0.86, 0, 0, 0, 0.86, 0, -0.913003, 0)
+billboard = 1
+texture_filter = 0
+texture = SubResource("AtlasTexture_2aerv")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Dealer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.968444, 0)
+visible = false
 mesh = SubResource("BoxMesh_olh0b")
 
 [node name="RightHand" type="Area3D" parent="Dealer" node_paths=PackedStringArray("roller", "op_roller", "grab_sound")]
@@ -238,6 +260,13 @@ script = ExtResource("3_olh0b")
 roller = NodePath("../Roller")
 op_roller = NodePath("../OpRoller")
 grab_sound = NodePath("../GrabSound")
+
+[node name="HandSprite" type="Sprite3D" parent="Dealer/RightHand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.435, 0)
+flip_h = true
+billboard = 1
+texture_filter = 0
+texture = SubResource("AtlasTexture_5y3mx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dealer/RightHand"]
 shape = SubResource("BoxShape3D_u03e6")
@@ -271,6 +300,12 @@ script = ExtResource("3_olh0b")
 roller = NodePath("../Roller")
 op_roller = NodePath("../OpRoller")
 grab_sound = NodePath("../GrabSound")
+
+[node name="HandSprite" type="Sprite3D" parent="Dealer/LeftHand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.435241, 0)
+billboard = 1
+texture_filter = 0
+texture = SubResource("AtlasTexture_tom3p")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dealer/LeftHand"]
 shape = SubResource("BoxShape3D_u03e6")

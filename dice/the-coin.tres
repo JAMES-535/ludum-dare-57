@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Die" load_steps=4 format=3 uid="uid://fb0807gibxn0"]
+
+[ext_resource type="Script" uid="uid://b0ipohur8fg5s" path="res://dice/die.gd" id="1_v8ihg"]
+[ext_resource type="PackedScene" uid="uid://dwqfkndp5dr37" path="res://instances/dice/the_coin/the-coin.tscn" id="2_l74lq"]
+[ext_resource type="PackedScene" uid="uid://dopaeuc54n4y" path="res://instances/dice/the_coin/the_coin_model.tscn" id="2_m7h2e"]
+
+[resource]
+script = ExtResource("1_v8ihg")
+name = "The Coin"
+description = "2 sides of the same coin."
+model = ExtResource("2_m7h2e")
+asset = ExtResource("2_l74lq")
+metadata/_custom_type_script = "uid://b0ipohur8fg5s"

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Die" load_steps=4 format=3 uid="uid://bb1rcgacxdxqj"]
 
-[ext_resource type="PackedScene" uid="uid://cst30cs2pp7f" path="res://instances/basic_4_sided_die.tscn" id="1_0stnb"]
+[ext_resource type="PackedScene" uid="uid://cst30cs2pp7f" path="res://instances/dice/basic_4_sided_die.tscn" id="1_0stnb"]
 [ext_resource type="PackedScene" uid="uid://dfhqeiupx4bk1" path="res://models/4-sided-die/4-sided-die.glb" id="2_qv3mt"]
 [ext_resource type="Script" uid="uid://b0ipohur8fg5s" path="res://dice/die.gd" id="2_rkdlj"]
 

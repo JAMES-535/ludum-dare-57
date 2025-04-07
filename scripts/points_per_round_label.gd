@@ -1,4 +1,4 @@
-extends Label
+extends Label3D
 
 var target_col : Color
 
@@ -13,5 +13,5 @@ func _process(delta: float) -> void:
 		target_col = danger_col
 	else:
 		target_col = normal_col
-	
-	set("theme_override_colors/font_color", get("theme_override_colors/font_color").lerp(target_col, delta * 2.0))
+		
+	modulate = modulate.lerp(target_col, delta * 2.0)

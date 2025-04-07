@@ -1,5 +1,7 @@
 extends RigidBody3D
 
+@onready var audio_player : AudioStreamPlayer3D = $AudioStreamPlayer3D
+
 var finished_movement : bool = false
 var first_bounced : bool = false
 
@@ -22,3 +24,4 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(_body : Node3D):
 	first_bounced = true
+	audio_player.play()
