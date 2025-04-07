@@ -4,6 +4,7 @@ class_name Dealer
 signal done_talking
 
 @onready var speech : Label3D = $Speech
+@onready var audio_player : AudioStreamPlayer3D = $SpeechSound
 
 func _ready() -> void:
 	speech.text = ""
@@ -16,6 +17,8 @@ func say(piece : String, freeze_player : bool = true):
 		
 	for c in piece:
 		speech.text += c
+		audio_player.pitch_scale = randf_range(0.5, 1.5)
+		audio_player.play()
 		await get_tree().create_timer(0.05).timeout
 		
 	await get_tree().create_timer(3.0).timeout

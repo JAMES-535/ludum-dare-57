@@ -50,10 +50,10 @@ func _ready() -> void:
 	else:
 		queue_free()
 
-func _process(delta: float) -> void:
-	debt_display.text = "DEBT\n" + str(debt)
-	ppr_label.text = str(points)
-	op_ppr_label.text = str(op_points)
+func _process(_delta: float) -> void:
+	debt_display.text = "DEBT\n$" + str(debt)
+	ppr_label.text = "You: " + str(points)
+	op_ppr_label.text = "Dealer: " + str(op_points)
 	round_label.text = "Round " + str(round) + "/5"
 	
 	if OS.is_debug_build():
@@ -106,13 +106,13 @@ func turn_end(held : bool = false):
 func check_game_over():
 	if round > 5 or debt == 0 or points > 19 or op_points > 19:
 		if points > 19 or (points < op_points and op_points <= 19):
-			debt += 5000
+			debt += 10000
 		else:
 			debt -= 10000
 		if debt < 0:
 			debt = 0
 		
-		if debt >= 200000:
+		if debt >= 100000:
 			game_over = true
 		elif debt == 0:
 			game_win = true

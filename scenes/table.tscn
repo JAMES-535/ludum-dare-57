@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://r8pkqi4ybu2c"]
+[gd_scene load_steps=23 format=3 uid="uid://r8pkqi4ybu2c"]
 
 [ext_resource type="Script" uid="uid://dpo36fvdt21fh" path="res://scripts/player_camera.gd" id="1_02ppr"]
 [ext_resource type="Script" uid="uid://ci1eo0ke2ye5k" path="res://scripts/game_manager.gd" id="1_eotx8"]
@@ -6,9 +6,13 @@
 [ext_resource type="Script" uid="uid://dptr4ogfvyij" path="res://scripts/hand.gd" id="3_olh0b"]
 [ext_resource type="Resource" uid="uid://bb1rcgacxdxqj" path="res://dice/6-sided-basic-die.tres" id="3_ov7a8"]
 [ext_resource type="Script" uid="uid://dbm2hfsrxjyue" path="res://scripts/table.gd" id="4_2f5gb"]
+[ext_resource type="Theme" uid="uid://brsy2y5wrysqn" path="res://fonts/main_theme.tres" id="4_g0e7t"]
 [ext_resource type="Script" uid="uid://m0yd56lxy03t" path="res://scripts/points_per_round_label.gd" id="4_ov7a8"]
 [ext_resource type="Script" uid="uid://468bq4ify1fu" path="res://scripts/hold_button.gd" id="5_e1moh"]
 [ext_resource type="Script" uid="uid://6exeaqc15t8x" path="res://scripts/dealer.gd" id="7_docs3"]
+[ext_resource type="FontFile" uid="uid://c1roruqqi1dl" path="res://fonts/Underdog-Regular.ttf" id="11_vm5w8"]
+[ext_resource type="AudioStream" uid="uid://4sx72osrkshv" path="res://sounds/talk_sounds.wav" id="12_vm5w8"]
+[ext_resource type="AudioStream" uid="uid://tpgvolivbckt" path="res://sounds/grab.wav" id="13_5qpul"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_x8522"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -18,7 +22,7 @@ ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
 sky_material = SubResource("ProceduralSkyMaterial_x8522")
 
 [sub_resource type="Environment" id="Environment_u03e6"]
-background_mode = 2
+background_mode = 1
 sky = SubResource("Sky_olh0b")
 tonemap_mode = 2
 glow_enabled = true
@@ -59,7 +63,7 @@ op_roller = NodePath("../Dealer/OpRoller")
 die_list = Array[ExtResource("2_2f5gb")]([ExtResource("3_ov7a8")])
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+transform = Transform3D(-0.866024, -0.433016, 0.250001, 0.452238, -0.465083, 0.761037, -0.21327, 0.772136, 0.598601, 0, 0, 0)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -74,6 +78,7 @@ anchor_right = 1.0
 offset_left = -164.0
 offset_bottom = 68.0
 grow_horizontal = 0
+theme = ExtResource("4_g0e7t")
 text = "DEBT:
 $100,000"
 horizontal_alignment = 2
@@ -81,22 +86,25 @@ horizontal_alignment = 2
 [node name="PointsPerRound" type="Label" parent="UI"]
 offset_right = 40.0
 offset_bottom = 23.0
+theme = ExtResource("4_g0e7t")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "0"
 script = ExtResource("4_ov7a8")
 
 [node name="OpPointsPerRound" type="Label" parent="UI"]
-offset_top = 23.0
+offset_top = 47.0
 offset_right = 40.0
-offset_bottom = 46.0
+offset_bottom = 94.0
+theme = ExtResource("4_g0e7t")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "0"
 script = ExtResource("4_ov7a8")
 
 [node name="Round" type="Label" parent="UI"]
-offset_top = 46.0
-offset_right = 79.0
-offset_bottom = 69.0
+offset_top = 94.0
+offset_right = 193.0
+offset_bottom = 141.0
+theme = ExtResource("4_g0e7t")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Round 0/5"
 
@@ -120,6 +128,7 @@ offset_top = -31.0
 offset_right = 27.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("4_g0e7t")
 theme_override_font_sizes/font_size = 36
 text = "HOLD"
 script = ExtResource("5_e1moh")
@@ -223,11 +232,12 @@ script = ExtResource("7_docs3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.968444, 0)
 mesh = SubResource("BoxMesh_olh0b")
 
-[node name="RightHand" type="Area3D" parent="Dealer" node_paths=PackedStringArray("roller", "op_roller")]
+[node name="RightHand" type="Area3D" parent="Dealer" node_paths=PackedStringArray("roller", "op_roller", "grab_sound")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.732366, 0, 0.690949)
 script = ExtResource("3_olh0b")
 roller = NodePath("../Roller")
 op_roller = NodePath("../OpRoller")
+grab_sound = NodePath("../GrabSound")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dealer/RightHand"]
 shape = SubResource("BoxShape3D_u03e6")
@@ -236,28 +246,31 @@ shape = SubResource("BoxShape3D_u03e6")
 transform = Transform3D(0.988526, 0, -0.151054, 0, 1, 0, 0.151054, 0, 0.988526, -0.387889, 0, 0.907255)
 
 [node name="DieName" type="Label3D" parent="Dealer/RightHand"]
-transform = Transform3D(0.95327, 0, -0.30212, 0, 1, 0, 0.30212, 0, 0.95327, 0, 0.229761, 0)
+transform = Transform3D(0.14299, 0, -0.045318, 0, 0.15, 0, 0.045318, 0, 0.14299, 0, 0.229761, 0)
 visible = false
 text = "Name"
-font_size = 16
+font = ExtResource("11_vm5w8")
+font_size = 86
 outline_size = 0
 
 [node name="DieDescription" type="Label3D" parent="Dealer/RightHand"]
-transform = Transform3D(0.857957, 0, -0.513721, 0, 1, 0, 0.513721, 0, 0.857957, 0.212525, 0.167492, 0.0372374)
+transform = Transform3D(0.0857957, 0, -0.0513721, 0, 0.1, 0, 0.0513721, 0, 0.0857957, 0.212525, 0.167492, 0.0372374)
 visible = false
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-font_size = 8
+font = ExtResource("11_vm5w8")
+font_size = 86
 outline_size = 0
 horizontal_alignment = 0
 vertical_alignment = 0
 autowrap_mode = 2
-width = 100.0
+width = 1000.0
 
-[node name="LeftHand" type="Area3D" parent="Dealer" node_paths=PackedStringArray("roller", "op_roller")]
+[node name="LeftHand" type="Area3D" parent="Dealer" node_paths=PackedStringArray("roller", "op_roller", "grab_sound")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.732, 0, 0.691)
 script = ExtResource("3_olh0b")
 roller = NodePath("../Roller")
 op_roller = NodePath("../OpRoller")
+grab_sound = NodePath("../GrabSound")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dealer/LeftHand"]
 shape = SubResource("BoxShape3D_u03e6")
@@ -266,22 +279,24 @@ shape = SubResource("BoxShape3D_u03e6")
 transform = Transform3D(0.988494, 0, 0.151261, 0, 1, 0, -0.151261, 0, 0.988494, 0.388, 0, 0.907)
 
 [node name="DieName" type="Label3D" parent="Dealer/LeftHand"]
-transform = Transform3D(0.953191, 0, 0.30237, 0, 1, 0, -0.30237, 0, 0.953191, 0, 0.229761, 0)
+transform = Transform3D(0.142979, 0, 0.0453555, 0, 0.15, 0, -0.0453555, 0, 0.142979, 0, 0.229761, 0)
 visible = false
 text = "Name"
-font_size = 16
+font = ExtResource("11_vm5w8")
+font_size = 86
 outline_size = 0
 
 [node name="DieDescription" type="Label3D" parent="Dealer/LeftHand"]
-transform = Transform3D(0.858065, 0, 0.513541, 0, 1, 0, -0.513541, 0, 0.858065, -0.593, 0.167, 0.265)
+transform = Transform3D(0.0858065, 0, 0.0513541, 0, 0.1, 0, -0.0513541, 0, 0.0858065, -0.593, 0.167, 0.265)
 visible = false
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-font_size = 8
+font = ExtResource("11_vm5w8")
+font_size = 86
 outline_size = 0
 horizontal_alignment = 0
 vertical_alignment = 0
 autowrap_mode = 2
-width = 100.0
+width = 1000.0
 
 [node name="Roller" type="Node3D" parent="Dealer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58442, 1.58351, 0)
@@ -292,8 +307,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.584, 1.584, 0)
 top_level = true
 
 [node name="Speech" type="Label3D" parent="Dealer"]
-transform = Transform3D(1, 0, 0, 0, 0.963574, 0.26744, 0, -0.26744, 0.963574, 0, -0.597894, 1.35785)
+transform = Transform3D(0.1, 0, 0, 0, 0.0963574, 0.026744, 0, -0.026744, 0.0963574, 0, -0.597894, 1.35785)
 text = "Test text for speech"
-font_size = 16
+font = ExtResource("11_vm5w8")
+font_size = 196
+outline_size = 0
 autowrap_mode = 2
-width = 300.0
+width = 1800.0
+
+[node name="SpeechSound" type="AudioStreamPlayer3D" parent="Dealer"]
+stream = ExtResource("12_vm5w8")
+
+[node name="GrabSound" type="AudioStreamPlayer3D" parent="Dealer"]
+stream = ExtResource("13_5qpul")

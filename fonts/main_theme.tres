@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://brsy2y5wrysqn"]
+
+[ext_resource type="FontFile" uid="uid://c1roruqqi1dl" path="res://fonts/Underdog-Regular.ttf" id="1_7fxfc"]
+
+[resource]
+default_font = ExtResource("1_7fxfc")
+default_font_size = 40

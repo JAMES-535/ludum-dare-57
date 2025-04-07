@@ -5,6 +5,7 @@ extends Area3D
 @onready var description_label : Label3D = $DieDescription
 @export var roller : Node3D
 @export var op_roller : Node3D
+@export var grab_sound : AudioStreamPlayer3D
 
 var current_die : Die
 var die_mesh : Node3D
@@ -46,6 +47,7 @@ func _on_input_event(camera : Node, event : InputEvent, event_position : Vector3
 		GameManager.instance.state = GameManager.instance.PlayerState.ROLLING
 		await get_tree().create_timer(0.5).timeout
 		die_mesh.visible = false
+		grab_sound.play()
 		await get_tree().create_timer(1.0).timeout
 		GameManager.instance.player.look_down()
 		await get_tree().create_timer(4.0).timeout
