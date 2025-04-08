@@ -70,7 +70,7 @@ func roll_die(current_die : Die = null):
 	table.on_table.clear()
 	collision_reset.emit()
 	
-	if turn == 1 and range(19 - op_points).pick_random() == 0:
+	if turn == 1 and range(19 - op_points + 1).pick_random() == 0:
 		dealer.hold()
 		turn_end(true)
 		return
