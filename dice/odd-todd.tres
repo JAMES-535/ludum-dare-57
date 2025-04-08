@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Die" load_steps=3 format=3 uid="uid://brck8402y7t1k"]
+
+[ext_resource type="Script" uid="uid://b0ipohur8fg5s" path="res://dice/die.gd" id="1_8c7yj"]
+[ext_resource type="PackedScene" uid="uid://wq67fnc1mgvh" path="res://instances/dice/odd_todd/odd-todd-model.tscn" id="1_bmf30"]
+
+[resource]
+script = ExtResource("1_8c7yj")
+name = "Odd Todd"
+description = "He's not so nice."
+model = ExtResource("1_bmf30")
+asset = ExtResource("1_bmf30")
+metadata/_custom_type_script = "uid://b0ipohur8fg5s"

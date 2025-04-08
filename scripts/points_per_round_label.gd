@@ -14,4 +14,4 @@ func _process(delta: float) -> void:
 	else:
 		target_col = normal_col
 		
-	modulate = modulate.lerp(target_col, delta * 2.0)
+	modulate = modulate.lerp(target_col, delta * 1.5)

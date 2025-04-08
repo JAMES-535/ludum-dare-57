@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Die" load_steps=4 format=3 uid="uid://ikq3wm6wb6kw"]
+
+[ext_resource type="PackedScene" uid="uid://vbb5qlo0hfi2" path="res://instances/dice/7_up/7-up.tscn" id="1_o1mqa"]
+[ext_resource type="PackedScene" uid="uid://dwpxfaro35cwr" path="res://instances/dice/7_up/7-up-model.tscn" id="2_j3yyx"]
+[ext_resource type="Script" uid="uid://b0ipohur8fg5s" path="res://dice/die.gd" id="3_ly6cx"]
+
+[resource]
+script = ExtResource("3_ly6cx")
+name = "7 Up"
+description = "For those who wish for more."
+model = ExtResource("2_j3yyx")
+asset = ExtResource("1_o1mqa")
+metadata/_custom_type_script = "uid://b0ipohur8fg5s"

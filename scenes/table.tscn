@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://r8pkqi4ybu2c"]
+[gd_scene load_steps=36 format=3 uid="uid://r8pkqi4ybu2c"]
 
 [ext_resource type="Script" uid="uid://dpo36fvdt21fh" path="res://scripts/player_camera.gd" id="1_02ppr"]
 [ext_resource type="Script" uid="uid://ci1eo0ke2ye5k" path="res://scripts/game_manager.gd" id="1_eotx8"]
@@ -9,8 +9,11 @@
 [ext_resource type="Resource" uid="uid://fb0807gibxn0" path="res://dice/the-coin.tres" id="4_5y3mx"]
 [ext_resource type="Theme" uid="uid://brsy2y5wrysqn" path="res://fonts/main_theme.tres" id="4_g0e7t"]
 [ext_resource type="Script" uid="uid://m0yd56lxy03t" path="res://scripts/points_per_round_label.gd" id="4_ov7a8"]
+[ext_resource type="Resource" uid="uid://ikq3wm6wb6kw" path="res://dice/7-up.tres" id="5_a8a7m"]
 [ext_resource type="Script" uid="uid://468bq4ify1fu" path="res://scripts/hold_button.gd" id="5_e1moh"]
+[ext_resource type="Resource" uid="uid://c7w6ouq5yvh83" path="res://dice/even-steven.tres" id="6_xmkwv"]
 [ext_resource type="Script" uid="uid://6exeaqc15t8x" path="res://scripts/dealer.gd" id="7_docs3"]
+[ext_resource type="Script" uid="uid://bh2dhehmcr242" path="res://scripts/update_amt.gd" id="8_g1hoi"]
 [ext_resource type="AudioStream" uid="uid://dta4b7ph3jvd0" path="res://sounds/gunshot-one.mp3" id="9_2aerv"]
 [ext_resource type="Texture2D" uid="uid://botr13xf6x486" path="res://sprites/dealer.png" id="10_tom3p"]
 [ext_resource type="FontFile" uid="uid://c1roruqqi1dl" path="res://fonts/Underdog-Regular.ttf" id="11_vm5w8"]
@@ -29,6 +32,94 @@ background_mode = 1
 sky = SubResource("Sky_olh0b")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="Animation" id="Animation_pdt10"]
+resource_name = "Motion"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.31864, 1),
+"update": 0,
+"values": [Vector3(0.837118, 0, 0), Vector3(1.362, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 0, 0, 1), Color(1, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_c5aq6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.837118, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hh204"]
+resource_name = "PositiveMotion"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.31864, 1),
+"update": 0,
+"values": [Vector3(0.837118, 0, 0), Vector3(1.362, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 1, 0, 1), Color(0, 1, 0, 1), Color(0, 1, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fgkbm"]
+_data = {
+&"Motion": SubResource("Animation_pdt10"),
+&"PositiveMotion": SubResource("Animation_hh204"),
+&"RESET": SubResource("Animation_c5aq6")
+}
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8522"]
 friction = 0.9
@@ -63,19 +154,20 @@ region = Rect2(368, 192, 105, 55)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("player", "debt_display", "ppr_label", "op_ppr_label", "round_label", "table", "dealer", "go_screen", "roller", "op_roller")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("player", "debt_display", "ppr_label", "op_ppr_label", "round_label", "update_visual", "table", "dealer", "go_screen", "roller", "op_roller")]
 script = ExtResource("1_eotx8")
 player = NodePath("../Camera3D")
 debt_display = NodePath("../UI2/Debt")
 ppr_label = NodePath("../UI2/YourPoints")
 op_ppr_label = NodePath("../UI2/DealerPoints")
 round_label = NodePath("../UI2/Round")
+update_visual = NodePath("../UI2/Debt/UpdateAmt")
 table = NodePath("../Table/Area3D")
 dealer = NodePath("../Dealer")
 go_screen = NodePath("../UI/GOScreen")
 roller = NodePath("../Dealer/Roller")
 op_roller = NodePath("../Dealer/OpRoller")
-die_list = Array[ExtResource("2_2f5gb")]([ExtResource("3_ov7a8"), ExtResource("4_5y3mx")])
+die_list = Array[ExtResource("2_2f5gb")]([ExtResource("3_ov7a8"), ExtResource("4_5y3mx"), ExtResource("5_a8a7m"), ExtResource("6_xmkwv")])
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866024, -0.433016, 0.250001, 0.452238, -0.465083, 0.761037, -0.21327, 0.772136, 0.598601, 0, 0, 0)
@@ -96,6 +188,20 @@ text = "$50000"
 font = ExtResource("11_vm5w8")
 font_size = 86
 
+[node name="UpdateAmt" type="Label3D" parent="UI2/Debt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.837118, 0, 0)
+billboard = 1
+modulate = Color(1, 0, 0, 0)
+text = "-$10k"
+font = ExtResource("11_vm5w8")
+script = ExtResource("8_g1hoi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI2/Debt/UpdateAmt"]
+libraries = {
+&"": SubResource("AnimationLibrary_fgkbm")
+}
+autoplay = "RESET"
+
 [node name="YourPoints" type="Label3D" parent="UI2"]
 transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1.60444, 2.63775, -1.55325)
 text = "You
@@ -110,6 +216,7 @@ text = "Dealer
 19"
 font = ExtResource("11_vm5w8")
 font_size = 86
+script = ExtResource("4_ov7a8")
 
 [node name="Round" type="Label3D" parent="UI2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.00722, -1.851)
@@ -343,12 +450,12 @@ top_level = true
 
 [node name="Speech" type="Label3D" parent="Dealer"]
 transform = Transform3D(0.1, 0, 0, 0, 0.0963574, 0.026744, 0, -0.026744, 0.0963574, 0, -0.597894, 1.35785)
-text = "Test text for speech"
+text = "Guess I won't be having any fun after all"
 font = ExtResource("11_vm5w8")
 font_size = 196
 outline_size = 0
 autowrap_mode = 2
-width = 1800.0
+width = 2200.0
 
 [node name="SpeechSound" type="AudioStreamPlayer3D" parent="Dealer"]
 stream = ExtResource("12_vm5w8")

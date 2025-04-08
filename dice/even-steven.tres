@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Die" load_steps=4 format=3 uid="uid://c7w6ouq5yvh83"]
+
+[ext_resource type="Script" uid="uid://b0ipohur8fg5s" path="res://dice/die.gd" id="1_07stt"]
+[ext_resource type="PackedScene" uid="uid://cosofnbiqenjr" path="res://instances/dice/even_steven/even-steven.tscn" id="1_l6g5y"]
+[ext_resource type="PackedScene" uid="uid://bgmod65yavd4o" path="res://instances/dice/even_steven/even-steven-model.tscn" id="2_cxvw5"]
+
+[resource]
+script = ExtResource("1_07stt")
+name = "Even Steven"
+description = "What a well mannered guy."
+model = ExtResource("2_cxvw5")
+asset = ExtResource("1_l6g5y")
+metadata/_custom_type_script = "uid://b0ipohur8fg5s"

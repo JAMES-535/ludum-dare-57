@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://5ggiry635jy4"]
+[gd_scene load_steps=10 format=3 uid="uid://5ggiry635jy4"]
 
 [ext_resource type="Script" uid="uid://ckb1butt3xg34" path="res://scripts/play_button.gd" id="1_4ignj"]
 [ext_resource type="Theme" uid="uid://brsy2y5wrysqn" path="res://fonts/main_theme.tres" id="1_p6dhs"]
 [ext_resource type="PackedScene" uid="uid://7xau77rl1c3q" path="res://scenes/talking.tscn" id="2_wosw1"]
+[ext_resource type="Script" uid="uid://b15vvd36wmj71" path="res://scripts/fullscreen_button.gd" id="5_b3w7a"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_p6dhs"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -16,6 +17,10 @@ background_mode = 1
 sky = SubResource("Sky_pyl7j")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b3w7a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pyl7j"]
 
 [node name="Title" type="Node3D"]
 
@@ -62,5 +67,25 @@ grow_vertical = 2
 theme = ExtResource("1_p6dhs")
 theme_override_font_sizes/font_size = 81
 text = "Debt Bust"
+
+[node name="Fullscreen" type="Button" parent="UI"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("1_p6dhs")
+theme_override_colors/font_color = Color(0.509286, 0.509286, 0.509286, 1)
+theme_override_colors/font_focus_color = Color(0.509286, 0.509286, 0.509286, 1)
+theme_override_colors/font_pressed_color = Color(0.509286, 0.509286, 0.509286, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_b3w7a")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_pyl7j")
+text = "Fullscreen"
+flat = true
+script = ExtResource("5_b3w7a")
 
 [node name="Camera3D" type="Camera3D" parent="."]

@@ -12,6 +12,7 @@ static var instance : GameManager
 @export var ppr_label : Label3D
 @export var op_ppr_label : Label3D
 @export var round_label : Label3D
+@export var update_visual : Label3D
 @export var table : Table
 @export var dealer : Dealer
 @export var go_screen : ColorRect
@@ -22,6 +23,7 @@ static var instance : GameManager
 @export var die_list : Array[Die]
 
 @onready var title_screen := load("res://scenes/title.tscn")
+@onready var win_screen := load("res://scenes/win.tscn")
 
 var debt : int = 50000
 var points : int = 0
@@ -104,29 +106,42 @@ func turn_end(held : bool = false):
 		check_game_over()
 
 func check_game_over():
-	hand_reset.emit(game_over)
-	player.look_up()
-	await get_tree().create_timer(1.0).timeout
-	
-	if round > 5 or debt == 0 or points > 19 or op_points > 19:
+	var temp_debt = debt
+	var temp_points = points
+	var temp_op_points = op_points
+	if round > 5 or temp_debt == 0 or temp_points > 19 or temp_op_points > 19:
 		
-		if points > 19 or (points < op_points and op_points <= 19):
-			debt += 10000
+		if temp_points > 19 or (temp_points < temp_op_points and temp_op_points <= 19):
+			temp_debt += 10000
 		else:
-			debt -= 10000
-		if debt < 0:
-			debt = 0
+			temp_debt -= 10000
+		if temp_debt < 0:
+			temp_debt = 0
 		
-		if debt >= 100000:
+		if temp_debt >= 100000:
 			game_over = true
-		elif debt == 0:
+		elif temp_debt == 0:
 			game_win = true
 
 		round = 1
-		points = 0
-		op_points = 0
+		temp_points = 0
+		temp_op_points = 0
 	
 	hand_reset.emit(game_over)
+	if round != 1:
+		points = temp_points
+		op_points = temp_op_points
+	player.look_up()
+	await get_tree().create_timer(1.0).timeout
+	if debt > temp_debt:
+		update_visual.positive_motion()
+	elif debt < temp_debt:
+		update_visual.negative_motion()
+	debt = temp_debt
+	if round == 1:
+		points = temp_points
+		op_points = temp_op_points
+	
 	collision_reset.emit()
 	if die:
 		die.queue_free()
@@ -154,9 +169,9 @@ func check_game_over():
 		await get_tree().create_timer(2.0).timeout
 		dealer.say("Deal's a deal, off you go")
 		await dealer.done_talking
-		await get_tree().create_timer(5.0).timeout
+		await get_tree().create_timer(2.0).timeout
 		go_screen.visible = true
-		await get_tree().create_timer(5.0).timeout
-		get_tree().change_scene_to_packed(title_screen)
+		await get_tree().create_timer(3.0).timeout
+		get_tree().change_scene_to_packed(win_screen)
 	else:
 		state = PlayerState.PICKING

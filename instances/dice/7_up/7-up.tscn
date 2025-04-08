@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://vbb5qlo0hfi2"]
+
+[ext_resource type="Script" uid="uid://qraa5j2lphfp" path="res://scripts/die_control.gd" id="1_d2tuf"]
+[ext_resource type="PackedScene" uid="uid://dwpxfaro35cwr" path="res://instances/dice/7_up/7-up-model.tscn" id="2_2eji6"]
+[ext_resource type="PackedScene" uid="uid://uxqp7qkb7nkr" path="res://instances/side.tscn" id="3_upir4"]
+[ext_resource type="AudioStream" uid="uid://c40ngfuyux1y1" path="res://sounds/die_hit.wav" id="4_1djhs"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eotx8"]
+friction = 0.8
+bounce = 0.7
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_olh0b"]
+points = PackedVector3Array(0.025, 0.025, 0.025, 0.025, 0.025, -0.025, -0.025, 0.025, 0.025, 0.025, -0.025, 0.025, 0.025, -0.025, -0.025, -0.025, 0.025, -0.025, -0.025, -0.025, 0.025, -0.025, -0.025, -0.025)
+
+[node name="7Up" type="RigidBody3D"]
+physics_material_override = SubResource("PhysicsMaterial_eotx8")
+contact_monitor = true
+max_contacts_reported = 1
+linear_velocity = Vector3(-4, 0, 0)
+script = ExtResource("1_d2tuf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_olh0b")
+
+[node name="7UpModel" parent="." instance=ExtResource("2_2eji6")]
+
+[node name="Sides" type="Node3D" parent="."]
+
+[node name="1" parent="Sides" instance=ExtResource("3_upir4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+side = 12
+
+[node name="2" parent="Sides" instance=ExtResource("3_upir4")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.025, 0, 0)
+side = 10
+
+[node name="3" parent="Sides" instance=ExtResource("3_upir4")]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 0, -0.025)
+side = 11
+
+[node name="4" parent="Sides" instance=ExtResource("3_upir4")]
+transform = Transform3D(-5.73206e-15, 1.31134e-07, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, 1.31134e-07, 0, 0, 0.025)
+side = 8
+
+[node name="5" parent="Sides" instance=ExtResource("3_upir4")]
+transform = Transform3D(4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 0, -3.82137e-15, 8.74228e-08, -1, -0.025, 0, 0)
+side = 9
+
+[node name="6" parent="Sides" instance=ExtResource("3_upir4")]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, -0.025, 0)
+side = 7
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_1djhs")
+volume_db = 20.0
+pitch_scale = 0.5

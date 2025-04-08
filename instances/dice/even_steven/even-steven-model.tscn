@@ -1,0 +1,107 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgmod65yavd4o"]
+
+[ext_resource type="FontFile" uid="uid://c1roruqqi1dl" path="res://fonts/Underdog-Regular.ttf" id="1_1j8mv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mfsym"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_fi48t"]
+material = SubResource("StandardMaterial3D_mfsym")
+size = Vector3(0.05, 0.05, 0.05)
+
+[node name="EvenStevenModel" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_fi48t")
+skeleton = NodePath("../..")
+
+[node name="Numbers" type="Node3D" parent="."]
+
+[node name="Label3D" type="Label3D" parent="Numbers"]
+transform = Transform3D(0.155, 0, 0, 0, -6.77527e-09, 0.155, 0, -0.155, -6.77527e-09, 0, 0.026, 0)
+modulate = Color(0, 0, 0, 1)
+text = "2
+"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D2" type="Label3D" parent="Numbers"]
+transform = Transform3D(0.155, 0, 0, 0, -0.155, -1.35505e-08, 0, 1.35505e-08, -0.155, 0, 0, -0.026)
+modulate = Color(0, 0, 0, 1)
+text = "6"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D8" type="Label3D" parent="Numbers/Label3D2"]
+modulate = Color(0, 0, 0, 1)
+text = "_"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D3" type="Label3D" parent="Numbers"]
+transform = Transform3D(-6.77527e-09, -1.35505e-08, 0.155, 0, -0.155, -1.35505e-08, 0.155, -5.92313e-16, 6.77527e-09, 0.026, 0, 0)
+modulate = Color(0, 0, 0, 1)
+text = "4"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D8" type="Label3D" parent="Numbers/Label3D3"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+text = "_"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D4" type="Label3D" parent="Numbers"]
+transform = Transform3D(-6.77526e-09, -1.35505e-08, -0.155, 1.35505e-08, 0.155, -1.35505e-08, 0.155, -1.35505e-08, -6.77526e-09, -0.026, 0, 0)
+modulate = Color(0, 0, 0, 1)
+text = "8
+"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D7" type="Label3D" parent="Numbers/Label3D4"]
+transform = Transform3D(1, 0, 3.55271e-15, 7.10543e-15, 1, -3.28406e-15, 0, 3.82137e-15, 1, 0, 0, 0)
+visible = false
+modulate = Color(0, 0, 0, 1)
+text = "_"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D5" type="Label3D" parent="Numbers"]
+transform = Transform3D(0.155, -1.35505e-08, -3.10862e-14, 1.35505e-08, 0.155, -1.35505e-08, 2.93099e-14, 1.35505e-08, 0.155, 0, 0, 0.026)
+modulate = Color(0, 0, 0, 1)
+text = "10"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D8" type="Label3D" parent="Numbers/Label3D5"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+text = "_"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D6" type="Label3D" parent="Numbers"]
+transform = Transform3D(0.155, -1.35505e-08, -3.01992e-14, -3.01969e-14, -2.03258e-08, -0.155, 1.35505e-08, 0.155, -2.03258e-08, 0, -0.026, 0)
+modulate = Color(0, 0, 0, 1)
+text = "12"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0
+
+[node name="Label3D9" type="Label3D" parent="Numbers/Label3D6"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+text = "_"
+font = ExtResource("1_1j8mv")
+font_size = 64
+outline_size = 0

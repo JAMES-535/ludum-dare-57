@@ -41,7 +41,7 @@ font_size = 64
 outline_size = 0
 
 [node name="Label3D4" type="Label3D" parent="Numbers"]
-transform = Transform3D(-6.77527e-09, -1.35505e-08, 0.155, -1.35505e-08, 0.155, 1.35505e-08, -0.155, -1.35505e-08, -6.77527e-09, -0.026, 0, 0)
+transform = Transform3D(-6.77526e-09, 1.35505e-08, -0.155, -1.35505e-08, 0.155, 1.35505e-08, 0.155, 1.35505e-08, -6.77526e-09, -0.026, 0, 0)
 modulate = Color(0, 0, 0, 1)
 text = "6"
 font = ExtResource("1_0ueeu")
@@ -57,7 +57,7 @@ font_size = 64
 outline_size = 0
 
 [node name="Label3D5" type="Label3D" parent="Numbers"]
-transform = Transform3D(-0.155, -1.35505e-08, -1.35505e-08, -1.35505e-08, 0.155, 1.35505e-08, 1.35505e-08, 1.35505e-08, -0.155, 0, 0, 0.026)
+transform = Transform3D(0.155, 1.35505e-08, 2.7101e-08, -1.35505e-08, 0.155, 1.35505e-08, -2.7101e-08, -1.35505e-08, 0.155, 0, 0, 0.026)
 modulate = Color(0, 0, 0, 1)
 text = "6"
 font = ExtResource("1_0ueeu")
@@ -72,7 +72,7 @@ font_size = 64
 outline_size = 0
 
 [node name="Label3D6" type="Label3D" parent="Numbers"]
-transform = Transform3D(-0.155, -1.35505e-08, -1.35505e-08, -1.35505e-08, -2.03258e-08, 0.155, -1.35505e-08, 0.155, 2.03258e-08, 0, -0.026, 0)
+transform = Transform3D(0.155, 1.35505e-08, -3.01981e-14, -2.93099e-14, 2.03258e-08, -0.155, -1.35505e-08, 0.155, 2.03258e-08, 0, -0.026, 0)
 modulate = Color(0, 0, 0, 1)
 text = "6"
 font = ExtResource("1_0ueeu")

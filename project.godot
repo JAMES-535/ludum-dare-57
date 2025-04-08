@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="ludum dare 57"
+config/name="Debt Bust"
 run/main_scene="uid://5ggiry635jy4"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
